@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DNA - Daily Notes Aku — Laporan Harian Pegawai</title>
+  <meta name="description" content="DNA - Daily Notes Aku: Aplikasi desktop untuk mencatat capaian kegiatan harian pegawai dan membuat Laporan Harian (PDF/Word) sebagai bukti dukung SKP." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <div class="app">
+    <!-- ============ Sidebar ============ -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><rect x="3" y="14" width="7" height="15" rx="2"/><rect x="12.5" y="8" width="7" height="21" rx="2"/><rect x="22" y="3" width="7" height="26" rx="2"/></svg>
+        </div>
+        <div>
+          <div class="brand-name">DNA</div>
+          <div class="brand-sub">Daily Notes Aku</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Navigasi utama">
+        <button class="nav-item active" data-view="dashboard" id="nav-dashboard">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="form" id="nav-form">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>Laporan Baru</span>
+        </button>
+        <button class="nav-item" data-view="history" id="nav-history">
+          <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg><span>Riwayat</span>
+          <span class="badge" id="history-count">0</span>
+        </button>
+
+        <!-- Master Data Group -->
+        <div class="nav-group">
+          <div class="nav-group-label">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+            <span>Master Data</span>
+          </div>
+          <div class="nav-sub">
+            <button class="nav-item sub" data-view="master-pegawai" id="nav-master-pegawai">
+              <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Pegawai</span>
+            </button>
+            <button class="nav-item sub" data-view="master-rk" id="nav-master-rk">
+              <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              <span>Rencana Kinerja</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="nav-item" data-view="settings" id="nav-settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Pengaturan</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <button class="ghost-btn theme-toggle" id="btn-theme-toggle" type="button" title="Ubah tema gelap / terang">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <span id="theme-label">Mode Gelap</span>
+        </button>
+        <button class="ghost-btn" id="btn-fullscreen" type="button" title="Layar Penuh (F11)">
+          <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          <span id="fullscreen-label">Layar Penuh (F11)</span>
+        </button>
+        <div class="version" id="app-version">v0.0.1</div>
+      </div>
+    </aside>
+
+    <!-- ============ Main ============ -->
+    <main class="main">
+      <!-- ---------- View: Dashboard ---------- -->
+      <section class="view active" id="view-dashboard" aria-labelledby="title-dashboard">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Ringkasan Eksekutif</p>
+            <h1 id="title-dashboard">Dashboard Laporan Harian</h1>
+          </div>
+        </header>
+
+        <!-- 1. Stats Cards -->
+        <div class="dash-stats-grid">
+          <div class="stat-card" style="--d:0">
+            <div class="stat-icon stat-blue">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Total Laporan</span>
+              <div class="stat-val" id="dash-stat-total">0</div>
+              <span class="stat-sub">Semua laporan terarsip</span>
+            </div>
+          </div>
+
+          <div class="stat-card" style="--d:1">
+            <div class="stat-icon stat-green">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Laporan Triwulan Ini</span>
+              <div class="stat-val" id="dash-stat-triwulan">0</div>
+              <span class="stat-sub" id="dash-stat-triwulan-label">Triwulan IV (Okt - Des)</span>
+            </div>
+          </div>
+
+          <div class="stat-card" style="--d:2">
+            <div class="stat-icon stat-orange">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Status Laporan</span>
+              <div class="stat-val" id="dash-stat-status">0</div>
+              <span class="stat-sub" id="dash-stat-status-sub">0 Selesai · 0 Proses/Draft</span>
+            </div>
+          </div>
+
+          <div class="stat-card" style="--d:3">
+            <div class="stat-icon stat-purple">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Total Pegawai</span>
+              <div class="stat-val" id="dash-stat-pegawai">0</div>
+              <span class="stat-sub">Pegawai aktif terdaftar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Chart Section -->
+        <article class="card dash-chart-card" style="--d:4">
+          <div class="card-head dash-chart-head">
+            <div>
+              <h2>Grafik Pembuatan Laporan Harian</h2>
+              <p class="chart-subtitle" id="dash-chart-subtitle">Frekuensi laporan dibuat per hari pada bulan dan tahun terpilih</p>
+            </div>
+            <div class="chart-controls">
+              <div class="filter-field">
+                <label for="dash-chart-month">Bulan:</label>
+                <select id="dash-chart-month" class="sm-select"></select>
+              </div>
+              <div class="filter-field">
+                <label for="dash-chart-year">Tahun:</label>
+                <select id="dash-chart-year" class="sm-select"></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-summary-bar" id="dash-chart-summary">
+            <!-- Ringkasan data bulan terpilih -->
+          </div>
+
+          <div class="chart-container" id="dash-chart-container">
+            <div class="chart-tooltip" id="dash-chart-tooltip"></div>
+            <!-- Dynamic interactive chart -->
+          </div>
+        </article>
+
+        <!-- 3. Complete Reports Table with Filters -->
+        <article class="card table-card dash-table-card" style="--d:5">
+          <div class="card-head dash-table-head">
+            <div>
+              <h2>Daftar Laporan Harian</h2>
+              <p class="chart-subtitle">Seluruh data laporan lengkap beserta status dan dokumen pendukung</p>
+            </div>
+            <span class="chip soft" id="dash-table-count">0 Laporan</span>
+          </div>
+
+          <!-- Filter Toolbar -->
+          <div class="table-filter-toolbar">
+            <div class="filter-group">
+              <div class="filter-item">
+                <label for="filter-year">Tahun</label>
+                <select id="filter-year" class="sm-select">
+                  <option value="all">Semua Tahun</option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <label for="filter-month">Bulan</label>
+                <select id="filter-month" class="sm-select">
+                  <option value="all">Semua Bulan</option>
+                  <option value="1">Januari</option>
+                  <option value="2">Februari</option>
+                  <option value="3">Maret</option>
+                  <option value="4">April</option>
+                  <option value="5">Mei</option>
+                  <option value="6">Juni</option>
+                  <option value="7">Juli</option>
+                  <option value="8">Agustus</option>
+                  <option value="9">September</option>
+                  <option value="10">Oktober</option>
+                  <option value="11">November</option>
+                  <option value="12">Desember</option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <label for="filter-status">Status</label>
+                <select id="filter-status" class="sm-select">
+                  <option value="all">Semua Status</option>
+                  <option value="generate">Generate (Selesai)</option>
+                  <option value="proses">Dalam Proses</option>
+                  <option value="draft">Draft</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-search-wrap">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="search" id="filter-search" placeholder="Cari pegawai, NIP, kegiatan..." />
+              <button class="ghost-btn sm-btn" id="btn-reset-filter" type="button" title="Reset filter">Reset</button>
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="data-table-wrap">
+            <table class="data-table" id="dash-table">
+              <thead>
+                <tr>
+                  <th style="width: 44px; text-align: center;">No</th>
+                  <th style="min-width: 140px;">Tanggal / Periode</th>
+                  <th style="min-width: 220px;">Pegawai</th>
+                  <th style="min-width: 280px;">Kegiatan &amp; Capaian</th>
+                  <th style="min-width: 110px;">Status</th>
+                  <th style="min-width: 140px;">File Dokumen</th>
+                  <th style="min-width: 130px; text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="dash-table-body">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- ---------- View: Form ---------- -->
+      <section class="view" id="view-form" aria-labelledby="title-form">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Capaian Kegiatan Harian</p>
+            <h1 id="title-form">Add Capaian Kegiatan Harian</h1>
+          </div>
+          <div class="head-actions">
+            <button class="ghost-btn" id="btn-toggle-wide" type="button" title="Perlebar form pengisian untuk kenyamanan menulis uraian kegiatan dan capaian">
+              <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              <span id="lbl-toggle-wide">Perlebar Form</span>
+            </button>
+            <button class="ghost-btn" id="btn-reset" type="button">Reset form</button>
+          </div>
+        </header>
+
+        <div class="form-layout">
+          <form class="form-col" id="report-form" novalidate>
+            <!-- Pegawai -->
+            <article class="card" style="--d:0">
+              <div class="card-head"><span class="step">1</span><h2>Pegawai</h2></div>
+              <div class="grid-2">
+                <div class="field span-2">
+                  <label for="f-pegawai-select">Pilih Pegawai (Dropdown)</label>
+                  <select id="f-pegawai-select"></select>
+                </div>
+                <div class="field">
+                  <label for="f-nama">Nama Lengkap &amp; Gelar <span class="req">*</span></label>
+                  <input id="f-nama" list="dl-nama" placeholder="Nama pegawai" />
+                  <datalist id="dl-nama"></datalist>
+                </div>
+                <div class="field">
+                  <label for="f-nip">NIP <span class="req">*</span></label>
+                  <input id="f-nip" list="dl-nip" placeholder="Nomor Induk Pegawai" />
+                  <datalist id="dl-nip"></datalist>
+                </div>
+                <div class="field span-2">
+                  <label for="f-jabatan">Jabatan</label>
+                  <input id="f-jabatan" list="dl-jabatan" placeholder="Jabatan pegawai" />
+                  <datalist id="dl-jabatan"></datalist>
+                </div>
+                <div class="field">
+                  <label for="f-tahun">Tahun</label>
+                  <input type="number" id="f-tahun" min="2000" max="2100" />
+                </div>
+                <div class="field">
+                  <label for="f-skp">SKP</label>
+                  <select id="f-skp"></select>
+                </div>
+              </div>
+            </article>
+
+            <!-- Rencana Kinerja -->
+            <article class="card" style="--d:1">
+              <div class="card-head"><span class="step">2</span><h2>Rencana Kinerja</h2></div>
+              <div class="field">
+                <label for="f-rk-select">Pilih Rencana Kinerja tersimpan (Dropdown)</label>
+                <select id="f-rk-select"></select>
+              </div>
+              <div class="field">
+                <label for="f-rk">Rencana Kinerja <span class="req">*</span></label>
+                <textarea id="f-rk" rows="2" placeholder="Tuliskan rencana kinerja"></textarea>
+              </div>
+            </article>
+
+            <!-- Waktu -->
+            <article class="card" style="--d:2">
+              <div class="card-head"><span class="step">3</span><h2>Waktu Pelaksanaan</h2></div>
+              <div class="toggles">
+                <label class="switch"><input type="checkbox" id="f-use-manual-period" /><span class="track"></span>Periode pilih manual</label>
+                <label class="switch" data-auto-time><input type="checkbox" id="f-use-period" /><span class="track"></span>Gunakan periode tanggal</label>
+                <label class="switch" data-auto-time><input type="checkbox" id="f-use-time" /><span class="track"></span>Gunakan jam</label>
+              </div>
+              <div class="field" id="wrap-manual-period" style="display:none">
+                <label for="f-manual-period">Periode Manual (Bebas diisi / diedit)</label>
+                <input type="text" id="f-manual-period" placeholder="Contoh: 1 Juli - 30 September 2026 (Triwulan III) atau 5 Oktober 2026, pukul 08.00 - 16.00 WIB" />
+              </div>
+              <div class="grid-2" id="wrap-auto-time">
+                <div class="field">
+                  <label for="f-date-start">Tanggal <span class="req">*</span></label>
+                  <div class="range">
+                    <input type="date" id="f-date-start" />
+                    <span class="tilde" data-period>~</span>
+                    <input type="date" id="f-date-end" data-period />
+                  </div>
+                </div>
+                <div class="field" data-time>
+                  <label for="f-time-start">Jam Mulai ~ Jam Selesai</label>
+                  <div class="range">
+                    <input type="time" id="f-time-start" />
+                    <span class="tilde">~</span>
+                    <input type="time" id="f-time-end" />
+                  </div>
+                </div>
+              </div>
+              <div class="field" style="margin-top: 14px; border-top: 1px dashed var(--border); padding-top: 12px;">
+                <label for="f-date-report">Tanggal Laporan (Tanda Tangan) <span class="req">*</span></label>
+                <input type="date" id="f-date-report" />
+                <small class="muted" style="font-size: 11px; display: block; margin-top: 3px;">
+                  Tanggal penandatanganan laporan (dapat diubah jika pengisian laporan lewat hari).
+                </small>
+              </div>
+            </article>
+
+            <!-- Kegiatan & Capaian -->
+            <article class="card" style="--d:3">
+              <div class="card-head"><span class="step">4</span><h2>Kegiatan &amp; Capaian</h2></div>
+              <div class="field">
+                <label for="f-kegiatan-judul">Kegiatan <span class="req">*</span></label>
+                <input type="text" id="f-kegiatan-judul" placeholder="Tuliskan nama atau ringkasan kegiatan..." />
+              </div>
+              <div class="field">
+                <label>Uraian Kegiatan (RTF) <span class="req">*</span></label>
+                <div class="rtf-wrap" id="wrap-uraian">
+                  <div class="rtf-toolbar" data-target="f-uraian-rtf">
+                    <button type="button" class="rtf-btn" data-cmd="bold" title="Tebal (Ctrl+B)"><b>B</b></button>
+                    <button type="button" class="rtf-btn" data-cmd="italic" title="Miring (Ctrl+I)"><i>I</i></button>
+                    <button type="button" class="rtf-btn" data-cmd="underline" title="Garis Bawah (Ctrl+U)"><u>U</u></button>
+                    <button type="button" class="rtf-btn" data-cmd="insertUnorderedList" title="Daftar Poin">• List</button>
+                    <button type="button" class="rtf-btn" data-cmd="insertOrderedList" title="Daftar Angka">1. List</button>
+                    <button type="button" class="rtf-btn" data-cmd="undo" title="Urungkan">↶</button>
+                  </div>
+                  <div class="rtf-body" id="f-uraian-rtf" contenteditable="true" data-placeholder="Deskripsi uraian kegiatan (bisa diformat tebal, miring, list)..."></div>
+                </div>
+              </div>
+              <div class="field">
+                <label for="f-progres">Progres <output id="progres-out">100%</output></label>
+                <div class="progress-row">
+                  <input type="range" id="f-progres" min="0" max="100" step="5" value="100" />
+                  <input type="number" id="f-progres-num" min="0" max="100" value="100" />
+                </div>
+              </div>
+              <div class="field">
+                <label>Hasil / Capaian (RTF) <span class="req">*</span></label>
+                <div class="rtf-wrap" id="wrap-hasil">
+                  <div class="rtf-toolbar" data-target="f-hasil-rtf">
+                    <button type="button" class="rtf-btn" data-cmd="bold" title="Tebal (Ctrl+B)"><b>B</b></button>
+                    <button type="button" class="rtf-btn" data-cmd="italic" title="Miring (Ctrl+I)"><i>I</i></button>
+                    <button type="button" class="rtf-btn" data-cmd="underline" title="Garis Bawah (Ctrl+U)"><u>U</u></button>
+                    <button type="button" class="rtf-btn" data-cmd="insertUnorderedList" title="Daftar Poin">• List</button>
+                    <button type="button" class="rtf-btn" data-cmd="insertOrderedList" title="Daftar Angka">1. List</button>
+                    <button type="button" class="rtf-btn" data-cmd="undo" title="Urungkan">↶</button>
+                  </div>
+                  <div class="rtf-body" id="f-hasil-rtf" contenteditable="true" data-placeholder="Deskripsi capaian hasil kegiatan (bisa diformat tebal, miring, list)..."></div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Data Dukung -->
+            <article class="card" style="--d:4">
+              <div class="card-head">
+                <span class="step">5</span><h2>Data Dukung &amp; Dokumentasi</h2>
+                <span class="chip" id="img-counter">0 foto</span>
+              </div>
+              <div class="field">
+                <label for="f-link">Link Data Dukung <small>(opsional / jika dokumentasi telah diunggah)</small></label>
+                <input type="url" id="f-link" placeholder="https://drive.google.com/..." />
+              </div>
+              <div class="field">
+                <label for="f-images">Dokumentasi <small>(opsional / tidak wajib, unggah foto bila ada)</small></label>
+                <label class="dropzone" id="dropzone" for="f-images">
+                  <input type="file" id="f-images" accept="image/*" multiple hidden />
+                  <svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+                  <strong>Tarik &amp; lepas gambar di sini</strong>
+                  <span>atau klik untuk memilih · bisa juga <kbd>Ctrl</kbd>+<kbd>V</kbd> screenshot</span>
+                </label>
+                <div class="thumbs" id="thumbs"></div>
+              </div>
+              <label class="check">
+                <input type="checkbox" id="f-masuk-skp" checked />
+                <span class="box"></span>
+                Masukan ke capaian SKP
+              </label>
+            </article>
+
+            <!-- Aksi Form Bawah (memudahkan saat mengetik dalam mode lebar) -->
+            <div class="form-bottom-actions">
+              <button class="primary-btn" id="btn-bottom-generate" type="button" style="flex: 2;">
+                <svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 18v-6M9 15l3 3 3-3"/></svg>
+                Generate Laporan
+              </button>
+              <button class="ghost-btn" id="btn-bottom-draft" type="button" style="flex: 1;" title="Simpan sebagai draft sementara">
+                <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Simpan Draft
+              </button>
+            </div>
+          </form>
+
+
+          <!-- Panel kanan: pratinjau + aksi -->
+          <aside class="side-col">
+            <div class="card sticky">
+              <div class="card-head"><h2>Pratinjau Dokumen</h2><span class="chip soft">Live</span></div>
+              <div class="paper-wrap">
+                <div class="paper" id="paper">
+                  <div class="p-kop">
+                    <div class="p-logo" id="p-logo"></div>
+                    <div class="p-kop-text">
+                      <div class="p-inst" id="p-inst">BADAN PUSAT STATISTIK</div>
+                      <div class="p-inst" id="p-wil">PROVINSI LAMPUNG</div>
+                    </div>
+                  </div>
+                  <div class="p-title">LAPORAN HARIAN</div>
+                  <table class="p-table">
+                    <tr><th>Nama</th><td id="pv-nama">—</td></tr>
+                    <tr><th>NIP</th><td id="pv-nip">—</td></tr>
+                    <tr><th>Jabatan</th><td id="pv-jabatan">—</td></tr>
+                    <tr><th>Kegiatan</th><td id="pv-kegiatan">—</td></tr>
+                    <tr><th>Periode</th><td id="pv-periode">—</td></tr>
+                    <tr><th>Uraian kegiatan</th><td id="pv-uraian">—</td></tr>
+                    <tr><th>Hasil</th><td id="pv-hasil">—</td></tr>
+                    <tr><th>Dokumentasi</th><td id="pv-dok">—</td></tr>
+                  </table>
+                  <div class="p-gallery" id="pv-gallery"></div>
+                  <div class="p-sign">
+                    <div id="pv-sign-date">Bandar Lampung, —</div>
+                    <div>Pegawai yang melaporkan,</div>
+                    <div class="p-sign-space" id="p-sign-space"></div>
+                    <div class="p-sign-name" id="pv-sign-name">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="format-row" role="group" aria-label="Format output">
+                <label class="fmt"><input type="checkbox" id="fmt-pdf" value="pdf" checked /><span>PDF</span></label>
+                <label class="fmt"><input type="checkbox" id="fmt-docx" value="docx" /><span>Word</span></label>
+              </div>
+              <ul class="checklist" id="checklist"></ul>
+              <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <button class="primary-btn" id="btn-generate" type="button" style="flex: 2;">
+                  <svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 18v-6M9 15l3 3 3-3"/></svg>
+                  Generate Laporan
+                </button>
+                <button class="ghost-btn" id="btn-save-draft" type="button" style="flex: 1;" title="Simpan sebagai draft sementara">
+                  <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  Draft
+                </button>
+              </div>
+              <p class="hint" id="logo-hint" hidden>Belum ada logo aktif. Anda dapat mengunggah file logo di menu <strong>Pengaturan</strong>.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ---------- View: History ---------- -->
+      <section class="view" id="view-history" aria-labelledby="title-history">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Arsip</p>
+            <h2 class="h1" id="title-history">Riwayat Laporan</h2>
+          </div>
+          <input type="search" id="history-search" class="search" placeholder="Cari kegiatan, periode…" />
+        </header>
+        <div class="history-list" id="history-list"></div>
+      </section>
+
+      <!-- ---------- View: Settings ---------- -->
+      <section class="view" id="view-settings" aria-labelledby="title-settings">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Aplikasi</p>
+            <h2 class="h1" id="title-settings">Pengaturan</h2>
+          </div>
+        </header>
+        <form class="settings-grid" id="settings-form" novalidate>
+          <article class="card">
+            <div class="card-head"><h2>Instansi &amp; Kop Laporan</h2></div>
+            <div class="field"><label for="s-instansi">Nama instansi</label><input id="s-instansi" placeholder="mis. BADAN PUSAT STATISTIK" /></div>
+            <div class="field"><label for="s-wilayah">Wilayah / Satuan Kerja</label><input id="s-wilayah" placeholder="mis. PROVINSI LAMPUNG" /></div>
+            <div class="field"><label for="s-kota">Kota penandatanganan</label><input id="s-kota" placeholder="mis. Bandar Lampung" /></div>
+            <p class="hint">Nama instansi dan wilayah akan dicetak pada kop surat di samping logo dokumen Word &amp; PDF.</p>
+          </article>
+          <article class="card" id="card-setting-logo">
+            <div class="card-head">
+              <h2>Logo Instansi</h2>
+              <span class="badge" id="badge-logo-status">Aktif</span>
+            </div>
+            <div class="logo-setting-container">
+              <div class="logo-preview-box" id="logo-setting-preview" title="Pratinjau Logo Instansi">
+                <img id="logo-setting-img" alt="Logo Instansi" />
+                <div id="logo-setting-empty" class="logo-empty-state" hidden>
+                  <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <span>Tanpa Logo</span>
+                </div>
+              </div>
+              <div class="logo-setting-info">
+                <p class="logo-help-text">Logo instansi Anda otomatis dicetak di kop dokumen Word (.docx) dan PDF serta pratinjau live.</p>
+                <div class="logo-btn-group">
+                  <input type="file" id="input-logo-file" accept="image/png,image/jpeg,image/jpg,image/webp" hidden />
+                  <button class="primary-btn" id="btn-upload-logo" type="button" style="width: auto; padding: 8px 14px; font-size: 13px;">
+                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Unggah Logo
+                  </button>
+                  <button class="ghost-btn" id="btn-default-logo" type="button" style="font-size: 13px; padding: 8px 12px;" title="Kembalikan ke logo bawaan sistem">
+                    Logo Default
+                  </button>
+                  <button class="ghost-btn danger" id="btn-remove-logo" type="button" style="font-size: 13px; padding: 8px 12px;" title="Hilangkan logo dari kop dokumen">
+                    Hapus
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p class="hint" style="margin-top: 14px;">Mendukung format PNG (latar transparan disarankan), JPG, atau WebP. Ukuran disesuaikan otomatis secara proporsional.</p>
+          </article>
+          <article class="card span-2">
+            <div class="card-head"><h2>Folder Penyimpanan Laporan</h2></div>
+            <div class="field">
+              <label for="s-output-dir">Lokasi Folder Output</label>
+              <input id="s-output-dir" placeholder="Pilih folder output..." />
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+              <button class="primary-btn" id="btn-browse-output" type="button" style="width: auto; padding: 8px 16px; font-size: 13px;">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                Pilih Folder...
+              </button>
+              <button class="ghost-btn" id="btn-reset-output" type="button" style="font-size: 13px;">
+                Reset Default
+              </button>
+            </div>
+            <p class="hint" style="margin-top: 14px;">Laporan PDF dan Word akan otomatis disimpan ke dalam sub-folder <code>&lt;Tahun&gt;/&lt;Bulan&gt;/</code> di dalam direktori ini.</p>
+          </article>
+          <article class="card span-2" style="margin-top: 6px;">
+            <div class="card-head">
+              <h2>Manajemen Data Aplikasi (Backup, Restore &amp; Reset)</h2>
+            </div>
+            <p class="hint" style="margin-top: 0; margin-bottom: 16px;">
+              Kelola salinan data seluruh pengaturan, master data pegawai, rencana kinerja, dan riwayat laporan harian Anda.
+            </p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+              <button class="primary-btn" id="btn-backup-data" type="button" style="width: auto; padding: 9px 18px; font-size: 13px;">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Backup Data (.json)
+              </button>
+              <button class="ghost-btn" id="btn-restore-data" type="button" style="font-size: 13px; padding: 9px 18px;">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Restore Data (.json)
+              </button>
+              <input type="file" id="input-restore-file" accept=".json" hidden />
+              <button class="ghost-btn danger" id="btn-reset-data" type="button" style="font-size: 13px; padding: 9px 18px; margin-left: auto;">
+                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                Reset Data (Kosongkan Semua)
+              </button>
+            </div>
+            <p class="hint" style="margin-top: 14px; color: var(--muted); font-size: 11.5px;">
+              <strong>Perhatian:</strong> Pilihan <em>Reset Data</em> akan mengosongkan seluruh data yang tersimpan di dalam folder <code>data/</code> (termasuk <code>history.json</code> dan <code>settings.json</code>).
+            </p>
+          </article>
+          <div class="settings-actions">
+            <button class="primary-btn" type="submit" id="btn-save-settings">Simpan Pengaturan</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ---------- View: Master Data Pegawai ---------- -->
+      <section class="view" id="view-master-pegawai" aria-labelledby="title-master-pegawai">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Master Data</p>
+            <h2 class="h1" id="title-master-pegawai">Data Pegawai</h2>
+          </div>
+          <div class="head-actions">
+            <button class="primary-btn" id="btn-add-pegawai" type="button">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              Tambah Pegawai
+            </button>
+          </div>
+        </header>
+        <div class="card table-card">
+          <div class="card-head">
+            <h2>Daftar Pegawai</h2>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table" id="table-pegawai">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No</th>
+                  <th>Nama Lengkap &amp; Gelar</th>
+                  <th>NIP</th>
+                  <th>Jabatan</th>
+                  <th style="width: 140px; text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-pegawai"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- View: Master Data Rencana Kinerja ---------- -->
+      <section class="view" id="view-master-rk" aria-labelledby="title-master-rk">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Master Data</p>
+            <h2 class="h1" id="title-master-rk">Data Rencana Kinerja</h2>
+          </div>
+          <div class="head-actions">
+            <button class="primary-btn" id="btn-add-rk" type="button">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              Tambah Rencana Kinerja
+            </button>
+          </div>
+        </header>
+        <div class="card table-card">
+          <div class="card-head">
+            <h2>Daftar Rencana Kinerja</h2>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table" id="table-rk">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No</th>
+                  <th>Uraian Rencana Kinerja</th>
+                  <th style="width: 140px; text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-rk"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Overlay loading -->
+  <div class="overlay" id="loading" hidden>
+    <div class="loader-card">
+      <div class="spinner"></div>
+      <p>Menyusun laporan…</p>
+    </div>
+  </div>
+
+  <!-- Modal hasil -->
+  <div class="overlay" id="result-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="result-title">
+      <div class="success-icon"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 id="result-title">Laporan berhasil dibuat</h2>
+      <p class="muted" id="result-folder"></p>
+      <div class="result-files" id="result-files"></div>
+      <div class="modal-actions">
+        <button class="ghost-btn" id="btn-result-folder" type="button">Buka folder</button>
+        <button class="ghost-btn" id="btn-result-close" type="button">Tutup</button>
+        <button class="primary-btn" id="btn-result-new" type="button">Laporan baru</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Pegawai -->
+  <div class="overlay" id="modal-pegawai" hidden>
+    <div class="modal form-modal" role="dialog" aria-modal="true" aria-labelledby="title-modal-pegawai">
+      <h2 id="title-modal-pegawai">Tambah Data Pegawai</h2>
+      <p class="muted">Data ini akan tersedia pada pilihan dropdown form laporan harian.</p>
+      <form id="form-pegawai" style="margin-top: 16px;">
+        <input type="hidden" id="mp-edit-idx" value="-1" />
+        <div class="field" style="margin-bottom: 12px;">
+          <label for="mp-nama">Nama Lengkap &amp; Gelar <span class="req">*</span></label>
+          <input id="mp-nama" required placeholder="mis. Eko Teguh Widodo SST., M.Sc." />
+        </div>
+        <div class="field" style="margin-bottom: 12px;">
+          <label for="mp-nip">NIP <span class="req">*</span></label>
+          <input id="mp-nip" required placeholder="mis. 340056266" />
+        </div>
+        <div class="field" style="margin-bottom: 16px;">
+          <label for="mp-jabatan">Jabatan <span class="req">*</span></label>
+          <input id="mp-jabatan" required placeholder="mis. Pranata Komputer Ahli Muda" />
+        </div>
+        <div class="field" style="margin-bottom: 16px;">
+          <label>Tanda Tangan (Opsional)</label>
+          <div style="display: flex; gap: 8px; align-items: center; margin-top: 4px;">
+            <img id="mp-signature-preview" src="" alt="Tanda Tangan" style="max-height: 40px; border-radius: 4px; display: none; object-fit: contain; border: 1px solid var(--border); padding: 2px;" />
+            <input type="file" id="mp-signature-file" accept="image/png,image/jpeg,image/jpg,image/webp" hidden />
+            <button class="ghost-btn sm-btn" id="btn-mp-signature" type="button">Unggah Tanda Tangan</button>
+            <button class="ghost-btn danger sm-btn" id="btn-mp-signature-remove" type="button" style="display: none;">Hapus</button>
+          </div>
+          <small class="muted" style="display: block; margin-top: 4px;">Tanda tangan ini akan muncul otomatis di bagian bawah laporan.</small>
+        </div>
+        <div class="modal-actions">
+          <button class="ghost-btn" id="btn-cancel-pegawai" type="button">Batal</button>
+          <button class="primary-btn" type="submit">Simpan Pegawai</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Rencana Kinerja -->
+  <div class="overlay" id="modal-rk" hidden>
+    <div class="modal form-modal" role="dialog" aria-modal="true" aria-labelledby="title-modal-rk">
+      <h2 id="title-modal-rk">Tambah Rencana Kinerja</h2>
+      <p class="muted">Uraian rencana kinerja untuk penilaian SKP.</p>
+      <form id="form-rk" style="margin-top: 16px;">
+        <input type="hidden" id="mrk-edit-idx" value="-1" />
+        <div class="field" style="margin-bottom: 16px;">
+          <label for="mrk-teks">Uraian Rencana Kinerja <span class="req">*</span></label>
+          <textarea id="mrk-teks" rows="4" required placeholder="Tuliskan uraian rencana kinerja..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button class="ghost-btn" id="btn-cancel-rk" type="button">Batal</button>
+          <button class="primary-btn" type="submit">Simpan Rencana Kinerja</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

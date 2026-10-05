@@ -1,0 +1,19 @@
+# Python / uv
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Scratch & temporary testing
+scratch/
+
+# Data lokal & hasil generate
+output/*
+!output/.gitkeep
+data/*.json
+data/*.tmp
+
+# Build & PyInstaller
+build/
+dist/
+*.spec

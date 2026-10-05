@@ -1,0 +1,16 @@
+[project]
+name = "daily-works-app"
+version = "0.0.1"
+description = "DNA - Daily Notes Aku"
+requires-python = ">=3.12"
+dependencies = [
+    "pillow>=12.3.0",
+    "python-docx>=1.2.0",
+    "pywebview>=6.2.1",
+    "reportlab>=5.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.22.3",
+]
